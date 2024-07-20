@@ -46,26 +46,21 @@ A robust and type-safe framework for building scalable web applications using Ty
         @Get('/')
         getHome(req: Request, res: Response) {
             const data = this.exampleService.getExampleData();
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify(data));
+            res.json(data);
         }
 
         @Post("/")
         save(req: Request, res: Response) {
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(
-            JSON.stringify({
+            res.json({
                 body: req.body,
                 params: req.params,
                 query: req.query,
-            })
-            );
+            });
         }
     }
 
 ### Setting Up the Server
 
-    import 'reflect-metadata';
     import { Server } from 'typhoonts';
     import { HomeController } from './controllers/HomeController';
     import { ExampleService } from './services/ExampleService';
@@ -79,8 +74,8 @@ A robust and type-safe framework for building scalable web applications using Ty
 
     server.registerController(HomeController);
 
-    server.listen(3000, () => {
-        console.log('Server is running on http://localhost:3000');
+    server.listen(8000, () => {
+        console.log('Server is running on http://localhost:8000');
     });
 
 ## Dynamic URL Example
@@ -92,12 +87,11 @@ A robust and type-safe framework for building scalable web applications using Ty
         @Get('/:id')
         getUser(req: Request, res: Response) {
             const userId = req.params.id;
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ message: `User ID is ${userId}` }));
+            res.send(`User ID is ${userId}`)
         }
     }
 
-In this example, a GET request to `/users/123` would respond with `{ "message": "User ID is 123" }`.
+In this example, a GET request to `/users/123` would respond with `User ID is 123`.
 
 ## Middleware
 
