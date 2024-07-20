@@ -71,6 +71,22 @@ A robust and type-safe framework for building scalable web applications using Ty
         console.log('Server is running on http://localhost:3000');
     });
 
+## Dynamic URL Example
+
+    import { Controller, Get, Request, Response } from 'typhoonts';
+
+    @Controller('/users')
+    export class UserController {
+        @Get('/:id')
+        getUser(req: Request, res: Response) {
+            const userId = req.params.id;
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ message: `User ID is ${userId}` }));
+        }
+    }
+
+In this example, a GET request to `/users/123` would respond with `{ "message": "User ID is 123" }`.
+
 ## Middleware
 
 ### Body Parser
