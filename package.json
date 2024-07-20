@@ -1,0 +1,38 @@
+{
+  "name": "typhoonts",
+  "version": "1.0.0",
+  "description": "A lightweight and flexible TypeScript framework for building server-side applications.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sendmail2krrish/typhoonts.git"
+  },
+  "keywords": [
+    "typescript",
+    "framework",
+    "nodejs",
+    "decorators",
+    "mvc",
+    "service"
+  ],
+  "author": "Krishna Pau <sendmail2krrish@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sendmail2krrish/typhoonts/issues"
+  },
+  "homepage": "https://github.com/sendmail2krrish/typhoonts#readme",
+  "dependencies": {
+    "reflect-metadata": "^0.2.2",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "@types/uuid": "^10.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
+  }
+}
