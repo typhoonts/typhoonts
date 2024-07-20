@@ -3,6 +3,7 @@ import { IncomingMessage as Request, ServerResponse as Response } from "http";
 export interface RequestWithBody extends Request {
   body: any;
   params: any;
+  query: any;
 }
 
 export interface RequestWithCookies extends RequestWithBody {
@@ -12,6 +13,9 @@ export interface RequestWithCookies extends RequestWithBody {
 
 export interface ResponseWithCookies extends Response {
   setCookie: (name: string, value: string, options?: CookieOptions) => void;
+  status: (statusCode: number) => ResponseWithCookies;
+  send: (body: string | Buffer) => void;
+  json: (body: any) => void;
 }
 
 export interface CookieOptions {

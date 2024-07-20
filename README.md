@@ -49,6 +49,18 @@ A robust and type-safe framework for building scalable web applications using Ty
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(data));
         }
+
+        @Post("/")
+        save(req: Request, res: Response) {
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(
+            JSON.stringify({
+                body: req.body,
+                params: req.params,
+                query: req.query,
+            })
+            );
+        }
     }
 
 ### Setting Up the Server

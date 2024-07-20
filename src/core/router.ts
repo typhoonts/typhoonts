@@ -1,3 +1,4 @@
+import { ParsedUrlQuery } from "querystring";
 import { parse } from "url";
 import { RequestWithCookies, ResponseWithCookies } from "../types";
 
@@ -49,10 +50,10 @@ export class Router {
     if (matchingRoute) {
       const params = this.extractParams(matchingRoute.path, url.pathname!);
       req.params = params;
+      req.query = this.extractQueryString(url.query);
       matchingRoute.handler(req, res);
     } else {
-      res.writeHead(404, { "Content-Type": "text/plain" });
-      res.end("Not Found");
+      res.status(404).send("Not Found");
     }
   }
 
@@ -89,5 +90,18 @@ export class Router {
     });
 
     return params;
+  }
+
+  // Extract query string parameters
+  private extractQueryString(query: ParsedUrlQuery): {
+    [key: string]: string | string[];
+  } {
+    const parsedQuery: { [key: string]: string | string[] } = {};
+    for (const key in query) {
+      if (query[key] !== undefined) {
+        parsedQuery[key] = query[key] as string | string[];
+      }
+    }
+    return parsedQuery;
   }
 }
