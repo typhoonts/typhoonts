@@ -1,12 +1,6 @@
 import { ParsedUrlQuery } from "querystring";
 import { parse } from "url";
-import { RequestWithCookies, ResponseWithCookies } from "../types";
-
-interface Route {
-  method: string;
-  path: string;
-  handler: (req: RequestWithCookies, res: ResponseWithCookies) => void;
-}
+import { RequestWithCookies, ResponseWithCookies, Route } from "../types";
 
 export class Router {
   private routes: Route[] = [];
@@ -27,12 +21,49 @@ export class Router {
         controller.prototype,
         methodName
       );
+      const params =
+        Reflect.getMetadata("params", controller.prototype, methodName) || [];
+      const responseOptions = Reflect.getMetadata(
+        "responseBody",
+        controller.prototype,
+        methodName
+      );
+
       if (method && path) {
         this.routes.push({
           method,
           path: `${basePath}${path}`,
           handler: (req: RequestWithCookies, res: ResponseWithCookies) => {
-            instance[methodName].bind(instance)(req, res);
+            const args = params
+              .sort((a: any, b: any) => a.index - b.index)
+              .map((param: any) => {
+                switch (param.type) {
+                  case "param":
+                    return req.params[param.name];
+                  case "body":
+                    return req.body;
+                  case "query":
+                    return req.query[param.name];
+                  default:
+                    return undefined;
+                }
+              });
+            const result = instance[methodName].bind(instance)(
+              ...args,
+              req,
+              res
+            );
+
+            if (responseOptions) {
+              res.writeHead(responseOptions.statusCode, {
+                "Content-Type": responseOptions.contentType,
+              });
+              res.end(
+                responseOptions.contentType === "application/json"
+                  ? JSON.stringify(result)
+                  : result
+              );
+            }
           },
         });
       }

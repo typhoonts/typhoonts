@@ -91,6 +91,48 @@ A robust and type-safe framework for building scalable web applications using Ty
         }
     }
 
+## Controller with @ResponseBody()
+
+    import { Controller, Get, Request, Response } from 'typhoonts';
+
+    @Controller('/users')
+    export class UserController {
+        @Post("/")
+        @ResponseBody()
+        save(req: Request, res: Response) {
+            return {
+                body: req.body,
+                params: req.params,
+                query: req.query,
+            };
+        }
+    }
+
+## Controller with @ResponseBody(), @Param(), @Body(), and @Query()
+
+    import { Controller, Get, Request, Response } from 'typhoonts';
+
+    @Controller('/users')
+    export class UserController {
+        @Put("/:id")
+        @ResponseBody()
+        update(
+            @Param("id") id: string,
+            @Body() reqBody: any,
+            @Query("keyword") keyword: string
+        ) {
+            return {
+                body: reqBody,
+                params: {
+                    id,
+                },
+                query: {
+                    keyword,
+                },
+            };
+        }
+    }
+
 In this example, a GET request to `/users/123` would respond with `User ID is 123`.
 
 ## Middleware

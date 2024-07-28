@@ -6,6 +6,11 @@ export interface RequestWithBody extends Request {
   query: any;
 }
 
+export interface ResponseDecoratorType {
+  statusCode?: number;
+  contentType?: string;
+}
+
 export interface RequestWithCookies extends RequestWithBody {
   cookies: { [key: string]: string };
   session?: { [key: string]: any };
@@ -33,3 +38,9 @@ export type Middleware = (
 ) => void;
 
 export { Request, Response };
+
+export interface Route {
+  method: string;
+  path: string;
+  handler: (req: RequestWithCookies, res: ResponseWithCookies) => void;
+}

@@ -1,6 +1,17 @@
 import { Server } from "./core/server";
 import { Component, Inject, Service } from "./decorators/pool";
-import { Any, Controller, Delete, Get, Post, Put } from "./decorators/route";
+import {
+  Any,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+  ResponseBody,
+} from "./decorators/route";
 import { bodyParser } from "./middleware/bodyParser";
 import { cookieParser } from "./middleware/cookieParser";
 import { session } from "./middleware/session";
@@ -12,6 +23,7 @@ import {
 
 export {
   Any,
+  Body,
   bodyParser,
   Component,
   Controller,
@@ -20,10 +32,13 @@ export {
   Get,
   Inject,
   Middleware,
+  Param,
   Post,
   Put,
+  Query,
   Request,
   Response,
+  ResponseBody,
   Server,
   Service,
   session,
