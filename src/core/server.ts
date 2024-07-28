@@ -42,8 +42,10 @@ export class Server {
     this.middlewares.push(middleware);
   }
 
-  registerController(controller: any) {
-    this.router.register(controller);
+  registerController(controllers: any) {
+    (Array.isArray(controllers) ? controllers : [controllers]).forEach(
+      (controller) => this.router.register(controller)
+    );
   }
 
   listen(port: number, callback?: () => void) {

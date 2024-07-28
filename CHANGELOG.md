@@ -2,6 +2,11 @@
 
 All features of TyphoonTS, will be documented in this file.
 
+## 1.1.1 (21-07-2024)
+
+- `registerController` supports array of controllers
+- Fix `async` controller issue
+
 ## 1.1.0 (21-07-2024)
 
 - @ResponseBody() decorator

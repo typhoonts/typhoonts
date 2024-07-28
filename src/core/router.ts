@@ -33,7 +33,10 @@ export class Router {
         this.routes.push({
           method,
           path: `${basePath}${path}`,
-          handler: (req: RequestWithCookies, res: ResponseWithCookies) => {
+          handler: async (
+            req: RequestWithCookies,
+            res: ResponseWithCookies
+          ) => {
             const args = params
               .sort((a: any, b: any) => a.index - b.index)
               .map((param: any) => {
@@ -48,7 +51,7 @@ export class Router {
                     return undefined;
                 }
               });
-            const result = instance[methodName].bind(instance)(
+            const result = await instance[methodName].bind(instance)(
               ...args,
               req,
               res
@@ -71,7 +74,7 @@ export class Router {
   }
 
   // Handle incoming requests
-  handle(req: RequestWithCookies, res: ResponseWithCookies) {
+  async handle(req: RequestWithCookies, res: ResponseWithCookies) {
     const url = parse(req.url || "", true);
     const method = req.method?.toLowerCase();
     const matchingRoute = this.routes.find((route) =>
@@ -82,7 +85,7 @@ export class Router {
       const params = this.extractParams(matchingRoute.path, url.pathname!);
       req.params = params;
       req.query = this.extractQueryString(url.query);
-      matchingRoute.handler(req, res);
+      await matchingRoute.handler(req, res);
     } else {
       res.status(404).send("Not Found");
     }
